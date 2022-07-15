@@ -1,0 +1,157 @@
+<header>
+    <app-nav-header></app-nav-header>
+</header>
+<mat-spinner *ngIf = "isLoading"></mat-spinner>
+<div class="dash-container" *ngIf = "screeningResults">
+
+    <mat-card class="header-card">
+        <div style="width: 40%; float:left">
+            <ul>
+                <li><span>Job Code: </span>{{jobCode}}</li>
+                <li><span>Total Resumes: </span>{{screeningResults['shortlisted'].length + screeningResults['rejected'].length}}</li>
+            </ul>
+        </div>
+        
+        <div style="width: 60%; float:right">
+            <ul>
+                <li> <span>JD Keywords: </span>{{screeningResults['JD Keywords'].slice(0, 60)+'...'}}</li>
+                <li> <span>Shortlisted Resumes: </span>{{screeningResults['shortlisted'].length}}</li>
+            </ul>
+        </div>
+    </mat-card>
+
+</div>
+
+ <div class = "dash-container">  <!--*ngIf = "screeningResults" -->
+    <mat-card class="shortlisted-card">
+        <mat-card-header>
+            <mat-card-title>Shortlisted Resumes</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="mat-elevation-z8 table-area">
+                <!-- <mat-form-field appearance="standard">
+                    <mat-label>Filter</mat-label>
+                    <input matInput (keyup)="applyShortlistedFilter($event)" placeholder="Ex. Job code" #input>
+                </mat-form-field> -->
+                <table mat-table [dataSource] = "shortlistedDataSource" matSort>
+                  <ng-container matColumnDef = "sno">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No. </th>
+                    <td mat-cell *matCellDef="let row;  let i = index;"> 
+                      {{shortlistedDataSource.filteredData.indexOf(row)+1}}  
+                    </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="candidateName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Candidate Name </th>
+                    <td mat-cell *matCellDef="let row">{{row.candidateName}}</td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="uploadedOn">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Uploaded On </th>
+                    <td mat-cell *matCellDef="let row"> {{row.uploadedOn | date: 'dd-MM-yyyy'}}   </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="keywordsMatch">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Keywords Match(%) </th>
+                    <td mat-cell *matCellDef="let row"> {{row.keywordsMatch.toFixed(2)+'%'}} </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="humanReview">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Human Review </th>
+                    <td mat-cell *matCellDef="let row"> 
+                      <button mat-icon-button (click) = "doHumanReview(row.jobId,row.resumeId,false)"><mat-icon>clear</mat-icon></button>
+                      <button mat-icon-button class = "accept-button" (click) = "doHumanReview(row.jobId,row.resumeId,true)"><mat-icon>check</mat-icon></button>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+                    <td mat-cell *matCellDef="let row"> 
+                      <button mat-icon-button (click) = "downloadResume(row.resumePath)"><mat-icon>cloud_download</mat-icon></button>
+                      <!-- <button mat-icon-button (click) = "openResume(row.resumePath)"><mat-icon>visibility</mat-icon></button> -->
+                      <button mat-icon-button><mat-icon>more_vert</mat-icon></button>
+                    </td>
+                  </ng-container>
+              
+                  <tr mat-header-row *matHeaderRowDef="shortlistedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: shortlistedColumns;"></tr>
+              
+                  <!-- Row shown when there is no matching data. -->
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                  </tr>
+                </table>
+              
+                <mat-paginator #shortlistedPaginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+              </div>
+        </mat-card-content>
+    </mat-card>
+
+</div>
+
+ <div class = "dash-container" > <!--*ngIf = "screeningResults" -->
+    <mat-card class="rejected-card">
+        <mat-card-header>
+            <mat-card-title>Rejected Resumes</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="mat-elevation-z8 table-area">
+                <!-- <mat-form-field appearance="standard">
+                    <mat-label>Filter</mat-label>
+                    <input matInput (keyup)="applyRejectedFilter($event)" placeholder="Ex. Job code" #input>
+                </mat-form-field> -->
+                <table mat-table [dataSource]="rejectedDataSource" matSort>
+                  <ng-container matColumnDef = "sno">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No. </th>
+                    <td mat-cell *matCellDef="let row; let i = index;">
+                      {{rejectedDataSource.filteredData.indexOf(row)+1}}  
+                    </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="candidateName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Candidate Name </th>
+                    <td mat-cell *matCellDef="let row">{{row.candidateName}}</td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="uploadedOn">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Uploaded On </th>
+                    <td mat-cell *matCellDef="let row"> {{row.uploadedOn | date: 'dd-MM-yyyy'}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="keywordsMatch">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Keywords Match(%) </th>
+                    <td mat-cell *matCellDef="let row"> {{row.keywordsMatch.toFixed(2)+'%'}} </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="humanReview">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Human Review </th>
+                    <td mat-cell *matCellDef="let row"> 
+                        <button mat-icon-button (click) = "doHumanReview(row.jobId,row.resumeId,true)"><mat-icon>clear</mat-icon></button>
+                        <button mat-icon-button class = "accept-button" (click) = "doHumanReview(row.jobId,row.resumeId,false)"><mat-icon>check</mat-icon></button>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+                    <td mat-cell *matCellDef="let row"> 
+                      <button mat-icon-button (click) = "downloadResume(row.resumePath)"><mat-icon>cloud_download</mat-icon></button>
+                      <!-- <button mat-icon-button (click) = "openResume(row.resumePath)"><mat-icon>visibility</mat-icon></button> -->
+                      <button mat-icon-button><mat-icon>more_vert</mat-icon></button>
+                    </td>
+                  </ng-container>
+              
+                  <tr mat-header-row *matHeaderRowDef="rejectedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: rejectedColumns;"></tr>
+              
+                  <!-- Row shown when there is no matching data. -->
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                  </tr>
+                </table>
+              
+                <mat-paginator #rejectedPaginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+              </div>
+        </mat-card-content>
+    </mat-card>
+
+</div>

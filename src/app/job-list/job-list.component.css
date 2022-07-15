@@ -1,0 +1,43 @@
+table {
+    width: 100%;
+  }
+  
+  #fitlerfield {
+    font-size: 14px;
+    width: 20%;
+    float: right;
+    margin-right: 20px;
+  }
+  
+  td, th {
+    width: 20%;
+  }
+
+  .sc-btn{
+    margin-left: 20px;;
+  }
+
+.file-input {
+  display: none;
+}
+
+#openingDiv {
+  float: left;
+  margin-top: 15px;
+  margin-left: 20px;
+}
+
+.mat-spinner {
+  position: fixed;
+  top: 270px;
+  left: 615px;
+  z-index: 99;
+}
+
+.mat-elevation-z8 {
+  margin-bottom: 3em;
+}
+
+#openingHeader {
+  font-size: 18px;
+}

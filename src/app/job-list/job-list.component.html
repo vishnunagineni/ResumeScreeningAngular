@@ -1,0 +1,58 @@
+<mat-spinner *ngIf = "isLoading"></mat-spinner>
+<div>
+  <div id = "openingDiv">
+     <h1 id = "openingHeader">Job Openings</h1>
+  </div>
+  <mat-form-field id = "fitlerfield" appearance="standard">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Job code" #input>
+  </mat-form-field>
+
+</div>
+  
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="jobCode">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Job Code </th>
+        <td mat-cell *matCellDef="let row"> {{row.jobCode}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="designationTitle">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Designation Title </th>
+        <td mat-cell *matCellDef="let row"> <a routerLink = "/job-desc/{{row.jobCode}}">{{row.designationTitle}}</a></td>
+      </ng-container>
+  
+      <ng-container matColumnDef="location">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Location </th>
+        <td mat-cell *matCellDef="let row"> {{row.location}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="totalUploadedResumes">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Resumes </th>
+        <td mat-cell *matCellDef="let row" style = "width: 10%;"> {{row.totalUploadedResumes}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+        <td mat-cell *matCellDef="let row"> 
+          <input class = "file-input" type = "hidden" type = "file" multiple #uploader (change) = "uploadFile($event.target.files, row.jobCode)"/>
+          <button mat-icon-button matTooltip = "Upload Resumes" color="primary" (click) = "uploader.click()"><mat-icon>cloud_upload</mat-icon></button>
+          <button mat-icon-button matTooltip = "Details" color="primary" class="sc-btn" (click)="screenResumes(row.jobCode)"
+          [disabled]="row.totalUploadedResumes==0" ><mat-icon>arrow_forward</mat-icon></button>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+      </tr>
+    </table>
+  
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  </div>
+  
+  

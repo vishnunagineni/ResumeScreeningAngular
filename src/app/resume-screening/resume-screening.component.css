@@ -1,0 +1,83 @@
+.mat-toolbar {
+    position: fixed;
+    z-index: 1000;
+}
+.dash-container{
+    width: 95%;padding-left: 35px;margin-top: 15px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.header-card{
+    width:80%;
+    background-color: #EBF5FB;
+    height: 70px;
+}
+
+ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+li{
+    padding: 10px;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 20%;
+    float: right;
+    margin-right: 20px;
+  }
+
+.shortlisted-card{
+    background-color: #c6f7d3;
+    height: 200px;
+    width: 80%;
+    /* float: left; */
+}
+
+.mat-table {
+    width: 100%;
+}
+
+.table-area {
+    background: #fff;
+    height: 150px;
+    overflow: auto;
+}
+/* 
+
+th {
+    text-align: center !important;
+} */
+
+tr {
+    height: 30px !important;
+}
+
+.rejected-card{
+    background-color:  #f5527042;
+    height: 200px;
+    width: 80%;
+    /* float: left; */
+    margin-bottom: 3em;
+}
+
+.mat-card-header {
+    justify-content: center;
+    color: black;
+}
+
+.accept-button {
+    margin-left: 5px;
+}
+
+.mat-spinner {
+    position: fixed;
+    top: 270px;
+    left: 615px;
+    z-index: 99;
+  }

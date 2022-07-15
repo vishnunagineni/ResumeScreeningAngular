@@ -1,0 +1,33 @@
+<mat-spinner *ngIf = "isLoading"></mat-spinner>
+<mat-card *ngIf = "jobDescription$ | async as jobDescription">
+    <mat-card-title>{{jobDescription.title}}</mat-card-title>
+    <mat-card-content matColumnDef = "headings">
+        <p>
+            <span>Description</span>
+        </p>
+        <table>
+            <tr>
+                <td class = "header-cell">Role</td>
+                <td class = "value-cell">{{jobDescription.role}}</td>
+            </tr>
+            <tr>
+                <td class = "header-cell">Experience</td>
+                <td class = "value-cell">{{jobDescription.experience}}</td>
+            </tr>
+            <tr>
+                <td class = "header-cell">Job Type</td>
+                <td class = "value-cell">{{jobDescription.job_type}}</td>
+            </tr>
+            <tr>
+                <td class = "header-cell">Location</td>
+                <td class = "value-cell">{{jobDescription.location}}</td>
+            </tr>
+        </table>
+        <mat-list role = "list">
+            <p><span>Key Responsibilities</span></p>
+            <mat-list-item *ngFor = "let responsibility of jobDescription.responsibilities">
+                <mat-icon>arrow_right</mat-icon><span>{{responsibility}}</span>
+            </mat-list-item>
+        </mat-list>
+    </mat-card-content>
+</mat-card>

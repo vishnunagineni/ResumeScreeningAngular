@@ -1,0 +1,26 @@
+
+tr {
+    height: 40px;
+}
+td {
+    padding: 20px;
+    margin: 0px;
+}
+.header-cell {
+    background-color: #A9A9A9;
+}
+.value-cell {
+    background-color: #D3D3D3;
+    min-width: 300px;
+}
+
+.mat-card {
+    margin-bottom: 2.5em;
+}
+
+.mat-spinner {
+    position: fixed;
+    top: 270px;
+    left: 615px;
+    z-index: 99;
+  }

@@ -1,0 +1,33 @@
+<h1 style="text-align: center;">Resume Screening</h1>
+<mat-spinner *ngIf = "isLoading"></mat-spinner>
+<mat-card>
+    <mat-card-title>Login</mat-card-title>
+    <mat-card-content>
+        <p>
+            <mat-form-field appearance = "outline">
+                <mat-label>Username</mat-label>
+                <input type = "text" id = "username" matInput placeholder="Username" [(ngModel)] = "userName">
+                
+                    <mat-icon matSuffix>account_circle</mat-icon>
+                
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance = "outline">
+                <mat-label>Password</mat-label>
+                <input [type] = "hide? 'password': 'text'" matInput placeholder = "Password" [(ngModel)] = "password" (keyup.enter)="clientOrgLogin()">
+                <button mat-icon-button matSuffix (click) = "hide = !hide">
+                    <mat-icon>{{hide ? 'visibility_off': 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+        </p>
+        <div class = "button">
+            <button mat-raised-button color = "primary" type = "submit" mat-button (click) = "clientOrgLogin()">Login</button>
+        </div>
+
+        <mat-error *ngIf = "error">
+            <span>Check your Username & Password</span>
+        </mat-error>
+
+    </mat-card-content>
+</mat-card>
